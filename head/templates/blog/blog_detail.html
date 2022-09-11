@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>{{ post.title }}</h1>
+    <small>
+        {{ post.created_on.date }} |
+        Categories:
+        {% for category in post.categories.all %}
+        <a href  ="{% url 'blog_category' category.name %}">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </small>
+    <p>{{ post.body | linebreaks }}</p>
+    <h3>Оставить комментарий:</h3>
+
+      <form action ="" method="POST">
+
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.author }}
+        </div>
+        <div class="form-group">
+            {{ form.body }}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+
+      </form>
+    <h3>Комментарии:</h3>
+    {% for comment in comments %}
+    <p>
+        On {{comment.created_on.date }}
+        <b>{{ comment.author }}</b> Оставил(а) комментарий:
+    </p>
+    <p>{{ comment.body }}</p>
+    <hr>
+    {% endfor %}
+
+</div>
+{% endblock %}
